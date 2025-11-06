@@ -385,12 +385,12 @@ function App() {
             color: '#666',
             marginBottom: '10px'
           }}>
-            Add comment...
+            Alguna Observación ?
           </div>
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder="Any special requests, details, final wishes etc."
+            placeholder="Cualquier petición especial, detalle, último deseo, etc."
             style={{
               width: '100%',
               minHeight: '80px',
