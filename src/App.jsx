@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const MENU = [
-  { id: "cake", nombre: "Cake", emoji: "🍰", precio: 0, isNew: true, isReward: true },
   { id: "burger", nombre: "Burger", emoji: "🍔", precio: 4.99 },
   { id: "fries", nombre: "Fries", emoji: "🍟", precio: 1.49 },
   { id: "hotdog", nombre: "Hotdog", emoji: "🌭", precio: 3.49 },
@@ -443,7 +442,7 @@ function App() {
               letterSpacing: '0.5px'
             }}
           >
-            VIEW ORDER
+            Ver Orden
           </button>
         </div>
       )}
