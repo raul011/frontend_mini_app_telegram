@@ -77,27 +77,7 @@ function App() {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       paddingBottom: totalItems > 0 ? '100px' : '20px'
     }}>
-      {/* Header */}
-      <div style={{
-        padding: '20px',
-        textAlign: 'center',
-        borderBottom: '1px solid #1a1a1a'
-      }}>
-        <h1 style={{
-          margin: '0 0 5px 0',
-          fontSize: '24px',
-          fontWeight: '600'
-        }}>
-          Durger King
-        </h1>
-        <p style={{
-          margin: 0,
-          color: '#666',
-          fontSize: '13px'
-        }}>
-          miniapp
-        </p>
-      </div>
+
 
       {/* Menu Grid */}
       <div style={{
