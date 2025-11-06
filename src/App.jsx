@@ -80,12 +80,57 @@ function App() {
     return (
       <div style={{
         minHeight: '100vh',
+        width: '100vw',
         background: '#000',
         color: '#fff',
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        paddingBottom: '100px'
+        paddingBottom: '100px',
+        margin: 0,
+        overflow: 'hidden'
       }}>
+        {/* Header */}
+        <div style={{
+          padding: '20px',
+          textAlign: 'center',
+          borderBottom: '1px solid #1a1a1a',
+          position: 'relative'
+        }}>
+          <button
+            onClick={() => setShowOrder(false)}
+            style={{
+              position: 'absolute',
+              left: '15px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              color: '#0A84FF',
+              fontSize: '17px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px'
+            }}
+          >
+            <span style={{ fontSize: '20px' }}>‹</span> Atrás
+          </button>
+          <h1 style={{
+            margin: '0 0 5px 0',
+            fontSize: '24px',
+            fontWeight: '600'
+          }}>
+            Durger King
+          </h1>
+          <p style={{
+            margin: 0,
+            color: '#666',
+            fontSize: '13px'
+          }}>
+            miniapp
+          </p>
+        </div>
 
+        {/* Order Header */}
         <div style={{
           padding: '20px',
           display: 'flex',
@@ -97,7 +142,7 @@ function App() {
             fontWeight: 'bold',
             margin: 0
           }}>
-            YOUR ORDER
+            Tu orden
           </h2>
           <button style={{
             background: 'none',
@@ -154,33 +199,22 @@ function App() {
         {/* Comment Section */}
         <div style={{
           padding: '20px',
-          borderTop: '8px solid #0a0a0a'
+          borderTop: '1px solid #1a1a1a'
         }}>
           <div style={{
             fontSize: '17px',
-            color: '#888',
+            color: '#666',
             marginBottom: '10px'
           }}>
             Add comment...
           </div>
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Any special requests, details, final wishes etc."
-            style={{
-              width: '100%',
-              minHeight: '100px',
-              background: '#1a1a1a',
-              border: 'none',
-              borderRadius: '10px',
-              padding: '15px',
-              color: '#888',
-              fontSize: '15px',
-              fontFamily: 'inherit',
-              resize: 'none',
-              outline: 'none'
-            }}
-          />
+          <div style={{
+            color: '#444',
+            fontSize: '15px',
+            lineHeight: '1.5'
+          }}>
+            Any special requests, details, final wishes etc.
+          </div>
         </div>
 
         {/* Pay Button */}
@@ -219,20 +253,22 @@ function App() {
   return (
     <div style={{
       minHeight: '100vh',
+      width: '100vw',
       background: '#000',
       color: '#fff',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      paddingBottom: totalItems > 0 ? '100px' : '20px'
+      paddingBottom: totalItems > 0 ? '100px' : '20px',
+      margin: 0,
+      overflow: 'hidden'
     }}>
-
-
       {/* Menu Grid */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
         gap: '0',
         padding: '0',
-        margin: '0'
+        margin: '0',
+        width: '100%'
       }}>
         {MENU.map((item) => {
           const quantity = cart[item.id] || 0;
