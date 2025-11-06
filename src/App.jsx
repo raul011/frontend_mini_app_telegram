@@ -226,7 +226,7 @@ function App() {
               fontSize: '12px',
               fontWeight: '600'
             }}>
-              💳 Tarjeta
+
             </div>
             <div style={{
               padding: '8px 16px',
@@ -235,7 +235,6 @@ function App() {
               fontSize: '12px',
               fontWeight: '600'
             }}>
-              📱 Billetera
             </div>
             <div style={{
               padding: '8px 16px',
@@ -244,7 +243,6 @@ function App() {
               fontSize: '12px',
               fontWeight: '600'
             }}>
-              🏦 Banco
             </div>
           </div>
         </div>
@@ -311,49 +309,7 @@ function App() {
         margin: 0,
         overflow: 'hidden'
       }}>
-        {/* Header */}
-        <div style={{
-          padding: '20px',
-          textAlign: 'center',
-          borderBottom: '1px solid #1a1a1a',
-          position: 'relative'
-        }}>
-          <button
-            onClick={() => setShowOrder(false)}
-            style={{
-              position: 'absolute',
-              left: '15px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'none',
-              border: 'none',
-              color: '#0A84FF',
-              fontSize: '17px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '5px'
-            }}
-          >
-            <span style={{ fontSize: '20px' }}>‹</span> Atrás
-          </button>
-          <h1 style={{
-            margin: '0 0 5px 0',
-            fontSize: '24px',
-            fontWeight: '600'
-          }}>
-            Durger King
-          </h1>
-          <p style={{
-            margin: 0,
-            color: '#666',
-            fontSize: '13px'
-          }}>
-            miniapp
-          </p>
-        </div>
 
-        {/* Order Header */}
         <div style={{
           padding: '20px',
           display: 'flex',
@@ -365,7 +321,7 @@ function App() {
             fontWeight: 'bold',
             margin: 0
           }}>
-            YOUR ORDER
+            Tú Orden
           </h2>
           <button style={{
             background: 'none',
@@ -475,7 +431,7 @@ function App() {
               letterSpacing: '0.5px'
             }}
           >
-            PAY ${getTotal().toFixed(2)}
+            Confirmar Pedido: ${getTotal().toFixed(2)}
           </button>
         </div>
       </div>
@@ -664,7 +620,7 @@ function App() {
               letterSpacing: '0.5px'
             }}
           >
-            VIEW ORDER
+            Ver Orden
           </button>
         </div>
       )}
