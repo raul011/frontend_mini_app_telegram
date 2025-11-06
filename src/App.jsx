@@ -14,6 +14,8 @@ const MENU = [
 
 function App() {
   const [cart, setCart] = useState({});
+  const [showOrder, setShowOrder] = useState(false);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
@@ -56,7 +58,11 @@ function App() {
     });
 
     if (tg && orderItems.length > 0) {
-      tg.sendData(JSON.stringify(orderItems));
+      tg.sendData(JSON.stringify({
+        items: orderItems,
+        comment: comment,
+        total: getTotal()
+      }));
     }
   };
 
@@ -69,6 +75,190 @@ function App() {
 
   const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
 
+  // Vista de orden
+  if (showOrder) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#000',
+        color: '#fff',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        paddingBottom: '100px'
+      }}>
+        {/* Header */}
+        <div style={{
+          padding: '20px',
+          textAlign: 'center',
+          borderBottom: '1px solid #1a1a1a',
+          position: 'relative'
+        }}>
+          <button
+            onClick={() => setShowOrder(false)}
+            style={{
+              position: 'absolute',
+              left: '15px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              color: '#0A84FF',
+              fontSize: '17px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px'
+            }}
+          >
+            <span style={{ fontSize: '20px' }}>‹</span> Atrás
+          </button>
+          <h1 style={{
+            margin: '0 0 5px 0',
+            fontSize: '24px',
+            fontWeight: '600'
+          }}>
+            Durger King
+          </h1>
+          <p style={{
+            margin: 0,
+            color: '#666',
+            fontSize: '13px'
+          }}>
+            miniapp
+          </p>
+        </div>
+
+        {/* Order Header */}
+        <div style={{
+          padding: '20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          borderBottom: '1px solid #1a1a1a'
+        }}>
+          <h2 style={{
+            fontSize: '28px',
+            fontWeight: 'bold',
+            margin: 0
+          }}>
+            YOUR ORDER
+          </h2>
+          <button style={{
+            background: 'none',
+            border: 'none',
+            color: '#00C853',
+            fontSize: '17px',
+            fontWeight: '600',
+            cursor: 'pointer'
+          }}>
+            Edit
+          </button>
+        </div>
+
+        {/* Order Items */}
+        <div style={{ padding: '0 20px' }}>
+          {Object.entries(cart).map(([itemId, quantity]) => {
+            const item = MENU.find(m => m.id === itemId);
+            return (
+              <div key={itemId} style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '20px 0',
+                borderBottom: '1px solid #1a1a1a'
+              }}>
+                <div style={{ fontSize: '48px', marginRight: '15px' }}>
+                  {item.emoji}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{
+                    fontSize: '20px',
+                    fontWeight: '600',
+                    marginBottom: '4px'
+                  }}>
+                    {item.nombre} <span style={{ color: '#FF9800' }}>{quantity}x</span>
+                  </div>
+                  <div style={{
+                    fontSize: '15px',
+                    color: '#888'
+                  }}>
+                    Meat™
+                  </div>
+                </div>
+                <div style={{
+                  fontSize: '20px',
+                  fontWeight: '600'
+                }}>
+                  ${(item.precio * quantity).toFixed(2)}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Comment Section */}
+        <div style={{
+          padding: '20px',
+          borderTop: '8px solid #0a0a0a'
+        }}>
+          <div style={{
+            fontSize: '17px',
+            color: '#888',
+            marginBottom: '10px'
+          }}>
+            Add comment...
+          </div>
+          <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Any special requests, details, final wishes etc."
+            style={{
+              width: '100%',
+              minHeight: '100px',
+              background: '#1a1a1a',
+              border: 'none',
+              borderRadius: '10px',
+              padding: '15px',
+              color: '#888',
+              fontSize: '15px',
+              fontFamily: 'inherit',
+              resize: 'none',
+              outline: 'none'
+            }}
+          />
+        </div>
+
+        {/* Pay Button */}
+        <div style={{
+          position: 'fixed',
+          bottom: '0',
+          left: '0',
+          right: '0',
+          padding: '12px 16px 20px 16px',
+          background: 'linear-gradient(to top, #000 80%, transparent)',
+          zIndex: 100
+        }}>
+          <button
+            onClick={confirmOrder}
+            style={{
+              width: '100%',
+              padding: '16px',
+              background: '#00C853',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '14px',
+              fontSize: '20px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              letterSpacing: '0.5px'
+            }}
+          >
+            PAY ${getTotal().toFixed(2)}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Vista de menú principal
   return (
     <div style={{
       minHeight: '100vh',
@@ -77,7 +267,27 @@ function App() {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       paddingBottom: totalItems > 0 ? '100px' : '20px'
     }}>
-
+      {/* Header */}
+      <div style={{
+        padding: '20px',
+        textAlign: 'center',
+        borderBottom: '1px solid #1a1a1a'
+      }}>
+        <h1 style={{
+          margin: '0 0 5px 0',
+          fontSize: '24px',
+          fontWeight: '600'
+        }}>
+          Durger King
+        </h1>
+        <p style={{
+          margin: 0,
+          color: '#666',
+          fontSize: '13px'
+        }}>
+          miniapp
+        </p>
+      </div>
 
       {/* Menu Grid */}
       <div style={{
@@ -278,7 +488,7 @@ function App() {
           zIndex: 100
         }}>
           <button
-            onClick={confirmOrder}
+            onClick={() => setShowOrder(true)}
             style={{
               width: '100%',
               padding: '16px',
