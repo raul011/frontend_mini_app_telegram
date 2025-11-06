@@ -1,54 +1,54 @@
-// frontend/src/App.jsx
 import { useEffect, useState } from "react";
 
+const MENU = [
+  { id: "burger", nombre: "Burger 🍔", precio: 4.99 },
+  { id: "fries", nombre: "Fries 🍟", precio: 1.49 },
+  { id: "hotdog", nombre: "Hotdog 🌭", precio: 3.49 },
+  { id: "taco", nombre: "Taco 🌮", precio: 3.99 },
+  { id: "pizza", nombre: "Pizza 🍕", precio: 7.99 },
+  { id: "donut", nombre: "Donut 🍩", precio: 1.49 },
+  { id: "popcorn", nombre: "Popcorn 🍿", precio: 1.99 },
+  { id: "soda", nombre: "Soda 🥤", precio: 1.50 }
+];
+
 function App() {
-  const [menu, setMenu] = useState([]);
-  const [carrito, setCarrito] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    fetch("https://backend-bot-ihc-1.onrender.com/menu")
-      .then(res => res.json())
-      .then(data => setMenu(data.menu));
+    const tg = window.Telegram.WebApp;
+    tg.ready();
   }, []);
 
-  const agregarAlCarrito = (item) => {
-    setCarrito([...carrito, item]);
+  const addItem = (item) => {
+    setCart([...cart, item]);
   };
 
-  const confirmarPedido = async () => {
-    const chatId = 123456789; // Simulado, luego lo pasas dinámico
-    const res = await fetch("https://backend-bot-ihc-1.onrender.com/pedido", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, items: carrito })
-    });
-    const data = await res.json();
-    alert(`Pedido confirmado. Total: $${data.total}`);
+  const confirmOrder = () => {
+    const tg = window.Telegram.WebApp;
+    tg.sendData(JSON.stringify(cart)); // Envía datos al bot
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Restaurant Aguilar 🍕</h1>
-      <h2>Menú</h2>
-      <ul>
-        {menu.map(item => (
-          <li key={item.id}>
-            {item.nombre} - ${item.precio.toFixed(2)}
-            <button onClick={() => agregarAlCarrito(item)}>Agregar</button>
-          </li>
-        ))}
-      </ul>
-
-      <h2>Carrito</h2>
-      <ul>
-        {carrito.map((item, idx) => (
-          <li key={idx}>{item.nombre} - ${item.precio.toFixed(2)}</li>
-        ))}
-      </ul>
-
-      {carrito.length > 0 && (
-        <button onClick={confirmarPedido}>Confirmar Pedido</button>
-      )}
+    <div style={{ padding: "1rem", fontFamily: "sans-serif" }}>
+      <h1>Durger King 🍔</h1>
+      {MENU.map((item) => (
+        <div key={item.id} style={{ marginBottom: "0.5rem" }}>
+          <span>{item.nombre} - ${item.precio.toFixed(2)}</span>
+          <button
+            style={{ marginLeft: "1rem", background: "orange", color: "white" }}
+            onClick={() => addItem(item)}
+          >
+            ADD
+          </button>
+        </div>
+      ))}
+      <hr />
+      <button
+        style={{ background: "green", color: "white", padding: "0.5rem 1rem" }}
+        onClick={confirmOrder}
+      >
+        VIEW ORDER 🛒
+      </button>
     </div>
   );
 }
