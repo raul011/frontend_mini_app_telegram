@@ -85,55 +85,12 @@ function App() {
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         paddingBottom: '100px'
       }}>
-        {/* Header */}
-        <div style={{
-          padding: '20px',
-          textAlign: 'center',
-          borderBottom: '1px solid #1a1a1a',
-          position: 'relative'
-        }}>
-          <button
-            onClick={() => setShowOrder(false)}
-            style={{
-              position: 'absolute',
-              left: '15px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'none',
-              border: 'none',
-              color: '#0A84FF',
-              fontSize: '17px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '5px'
-            }}
-          >
-            <span style={{ fontSize: '20px' }}>‹</span> Atrás
-          </button>
-          <h1 style={{
-            margin: '0 0 5px 0',
-            fontSize: '24px',
-            fontWeight: '600'
-          }}>
-            Durger King
-          </h1>
-          <p style={{
-            margin: 0,
-            color: '#666',
-            fontSize: '13px'
-          }}>
-            miniapp
-          </p>
-        </div>
 
-        {/* Order Header */}
         <div style={{
           padding: '20px',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center',
-          borderBottom: '1px solid #1a1a1a'
+          alignItems: 'center'
         }}>
           <h2 style={{
             fontSize: '28px',
@@ -267,27 +224,7 @@ function App() {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       paddingBottom: totalItems > 0 ? '100px' : '20px'
     }}>
-      {/* Header */}
-      <div style={{
-        padding: '20px',
-        textAlign: 'center',
-        borderBottom: '1px solid #1a1a1a'
-      }}>
-        <h1 style={{
-          margin: '0 0 5px 0',
-          fontSize: '24px',
-          fontWeight: '600'
-        }}>
-          Durger King
-        </h1>
-        <p style={{
-          margin: 0,
-          color: '#666',
-          fontSize: '13px'
-        }}>
-          miniapp
-        </p>
-      </div>
+
 
       {/* Menu Grid */}
       <div style={{
