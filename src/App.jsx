@@ -69,7 +69,7 @@ function App() {
       telegram_username: user?.first_name,   // 👈 username si existe
       items: orderItems,
       comment,
-      total: getTotal().toFixed(2)
+      total: getTotal()
     };
 
     // Log legible
