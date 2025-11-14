@@ -52,6 +52,7 @@ function App() {
 
   const finalizePayment = () => {
     const tg = window.Telegram?.WebApp;
+    console.log(tg.initDataUnsafe.user);
     const orderItems = Object.entries(cart).map(([itemId, quantity]) => {
       const item = MENU.find(m => m.id === itemId);
       return {
@@ -59,6 +60,13 @@ function App() {
         precio: item.precio,
         cantidad: quantity
       };
+    });
+
+    // 👇 Aquí logueas la orden completa
+    console.log("Orden actual:", {
+      items: orderItems,
+      comment: comment,
+      total: getTotal()
     });
 
     if (tg && orderItems.length > 0) {
