@@ -68,7 +68,7 @@ function App() {
       comment: comment,
       total: getTotal()
     });
-
+    console.log(orderItems);
     if (tg && orderItems.length > 0) {
       tg.sendData(JSON.stringify({
         items: orderItems,
