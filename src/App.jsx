@@ -52,7 +52,7 @@ function App() {
 
   const finalizePayment = () => {
     const tg = window.Telegram?.WebApp;
-    console.log(tg.initDataUnsafe.user);
+    const user = tg?.initDataUnsafe?.user;
     const orderItems = Object.entries(cart).map(([itemId, quantity]) => {
       const item = MENU.find(m => m.id === itemId);
       return {
@@ -62,18 +62,19 @@ function App() {
       };
     });
 
-    // 👇 Aquí logueas la orden completa
-    console.log("Orden actual:", {
-      items: orderItems,
-      comment: comment,
-      total: getTotal()
-    });
-    console.log(orderItems);
-    console.log(JSON.stringify({
+    console.log(tg.initDataUnsafe.user);
+    // Construyes el payload con los datos del usuario
+    const payload = {
+      telegram_user_id: user?.id,          // 👈 ID real del usuario
+      telegram_username: user?.username,   // 👈 username si existe
       items: orderItems,
       comment,
       total: getTotal()
-    }, null, 2));
+    };
+
+    // Log legible
+    console.log(JSON.stringify(payload, null, 2));
+
     if (tg && orderItems.length > 0) {
       tg.sendData(JSON.stringify({
         items: orderItems,
