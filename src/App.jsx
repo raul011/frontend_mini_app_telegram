@@ -66,10 +66,10 @@ function App() {
     // Construyes el payload con los datos del usuario
     const payload = {
       telegram_user_id: user?.id,          // 👈 ID real del usuario
-      telegram_username: user?.username,   // 👈 username si existe
+      telegram_username: user?.first_name,   // 👈 username si existe
       items: orderItems,
       comment,
-      total: getTotal()
+      total: getTotal().toFixed(2)
     };
 
     // Log legible
