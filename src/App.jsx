@@ -66,7 +66,7 @@ function App() {
 
     console.log(tg.initDataUnsafe.user);
     // Construyes el payload con los datos del usuario
-    console.log("Payload listo:", JSON.stringify(payload, null, 2));
+
 
     const payload = {
       telegram_user_id: user?.id,          //  ID real del usuario
@@ -75,7 +75,7 @@ function App() {
       comment,
       total: getTotal()
     };
-
+    console.log("Payload listo:", JSON.stringify(payload, null, 2));
 
     if (tg && orderItems.length > 0) {
       tg.sendData(JSON.stringify({
