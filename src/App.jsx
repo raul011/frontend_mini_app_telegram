@@ -54,7 +54,8 @@ function App() {
     const tg = window.Telegram?.WebApp;
     const user = tg?.initDataUnsafe?.user;
     const orderItems = Object.entries(cart).map(([itemId, quantity]) => {
-      const item = MENU.find(m => m.id === itemId);
+      //const item = MENU.find(m => m.id === itemId);
+      const item = MENU.find(m => m.id === Number(itemId));
       return {
         nombre: `${item.nombre}`,
         precio: item.precio,
@@ -86,7 +87,8 @@ function App() {
 
   const getTotal = () => {
     return Object.entries(cart).reduce((sum, [itemId, quantity]) => {
-      const item = MENU.find(m => m.id === itemId);
+      //const item = MENU.find(m => m.id === itemId);
+      const item = MENU.find(m => m.id === Number(itemId));
       return sum + (item.precio * quantity);
     }, 0);
   };
@@ -352,7 +354,7 @@ function App() {
         {/* Order Items */}
         <div style={{ padding: '0 20px' }}>
           {Object.entries(cart).map(([itemId, quantity]) => {
-            const item = MENU.find(m => m.id === itemId);
+            const item = MENU.find(m => m.id === Number(itemId));
             return (
               <div key={itemId} style={{
                 display: 'flex',
