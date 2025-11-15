@@ -71,9 +71,10 @@ function App() {
     const payload = {
       telegram_user_id: user?.id,          //  ID real del usuario
       telegram_username: user?.first_name,   //  username si existe
+      direccion_envio: "Av. Siempre Viva 742",
       items: orderItems,
-      comment,
-      total: getTotal()
+      comentario: comment,
+      total_price: getTotal()
     };
     console.log("Payload listo:", JSON.stringify(payload, null, 2));
 
