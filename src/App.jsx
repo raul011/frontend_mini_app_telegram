@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { crearOrden } from "../services/orders";
 const MENU = [
   { id: 1, nombre: "Burger", emoji: "🍔", precio: 4.99 },
   { id: 2, nombre: "Fries", emoji: "🍟", precio: 1.49 },
@@ -50,7 +50,7 @@ function App() {
     setShowPayment(true);
   };
 
-  const finalizePayment = () => {
+  const finalizePayment = async () => {
     const tg = window.Telegram?.WebApp;
     const user = tg?.initDataUnsafe?.user;
     const orderItems = Object.entries(cart).map(([itemId, quantity]) => {
@@ -58,24 +58,24 @@ function App() {
       const item = MENU.find(m => m.id === Number(itemId));
       return {
         //nombre: `${item.id}`,
-        producto_id: item.id,
-        precio: item.precio,
-        cantidad: quantity
+        product_id: item.id,
+        price: item.precio,
+        quantity: quantity
       };
     });
 
     console.log(tg.initDataUnsafe.user);
     // Construyes el payload con los datos del usuario
+    console.log("Payload listo:", JSON.stringify(payload, null, 2));
+
     const payload = {
-      telegram_user_id: user?.id,          // 👈 ID real del usuario
-      telegram_username: user?.first_name,   // 👈 username si existe
+      telegram_user_id: user?.id,          //  ID real del usuario
+      telegram_username: user?.first_name,   //  username si existe
       items: orderItems,
       comment,
       total: getTotal()
     };
 
-    // Log legible
-    console.log(JSON.stringify(payload, null, 2));
 
     if (tg && orderItems.length > 0) {
       tg.sendData(JSON.stringify({
@@ -84,6 +84,23 @@ function App() {
         total: getTotal()
       }));
     }
+
+    try {
+      //  aquí llamo a tu servicio
+      const result = await crearOrden(payload);
+      console.log("Orden creada en backend:", result);
+
+      // Si quieres, puedes notificar a Telegram que todo salió bien
+      if (tg) {
+        tg.sendData(JSON.stringify({ status: "success", orderId: result.id }));
+      }
+    } catch (error) {
+      console.error("Error creando la orden:", error);
+      if (tg) {
+        tg.sendData(JSON.stringify({ status: "error" }));
+      }
+    }
+
   };
 
   const getTotal = () => {
