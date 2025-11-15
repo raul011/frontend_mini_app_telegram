@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { crearOrden } from "../services/orders";
+import { crearOrden } from "./services/orders";
 const MENU = [
   { id: 1, nombre: "Burger", emoji: "🍔", precio: 4.99 },
   { id: 2, nombre: "Fries", emoji: "🍟", precio: 1.49 },
