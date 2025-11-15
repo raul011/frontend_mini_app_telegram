@@ -78,14 +78,6 @@ function App() {
     };
     console.log("Payload listo:", JSON.stringify(payload, null, 2));
 
-    if (tg && orderItems.length > 0) {
-      tg.sendData(JSON.stringify({
-        items: orderItems,
-        comment: comment,
-        total: getTotal()
-      }));
-    }
-
     try {
       //  aquí llamo a tu servicio
       const result = await crearOrden(payload);
