@@ -89,6 +89,7 @@ function App() {
       }
     } catch (error) {
       console.error("Error creando la orden:", error);
+      console.error("Error creando la orden:", error.response?.data || error.message);
       if (tg) {
         tg.sendData(JSON.stringify({ status: "error" }));
       }
