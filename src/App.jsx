@@ -56,7 +56,7 @@ function App() {
     const orderItems = Object.entries(cart).map(([itemId, quantity]) => {
       const item = MENU.find(m => m.id === itemId);
       return {
-        nombre: `${item.emoji} ${item.nombre}`,
+        nombre: `${item.nombre}`,
         precio: item.precio,
         cantidad: quantity
       };
