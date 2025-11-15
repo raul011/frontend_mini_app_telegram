@@ -57,7 +57,8 @@ function App() {
       //const item = MENU.find(m => m.id === itemId);
       const item = MENU.find(m => m.id === Number(itemId));
       return {
-        nombre: `${item.nombre}`,
+        //nombre: `${item.id}`,
+        producto_id: item.id,
         precio: item.precio,
         cantidad: quantity
       };
