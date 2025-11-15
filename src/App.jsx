@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
 const MENU = [
-  { id: "burger", nombre: "Burger", emoji: "🍔", precio: 4.99 },
-  { id: "fries", nombre: "Fries", emoji: "🍟", precio: 1.49 },
-  { id: "hotdog", nombre: "Hotdog", emoji: "🌭", precio: 3.49 },
-  { id: "taco", nombre: "Taco", emoji: "🌮", precio: 3.99 },
-  { id: "pizza", nombre: "Pizza", emoji: "🍕", precio: 7.99 },
-  { id: "donut", nombre: "Donut", emoji: "🍩", precio: 1.49 },
-  { id: "popcorn", nombre: "Popcorn", emoji: "🍿", precio: 1.99 },
-  { id: "soda", nombre: "Soda", emoji: "🥤", precio: 1.50 }
+  { id: 1, nombre: "Burger", emoji: "🍔", precio: 4.99 },
+  { id: 2, nombre: "Fries", emoji: "🍟", precio: 1.49 },
+  { id: 3, nombre: "Hotdog", emoji: "🌭", precio: 3.49 },
+  { id: 4, nombre: "Taco", emoji: "🌮", precio: 3.99 },
+  { id: 5, nombre: "Pizza", emoji: "🍕", precio: 7.99 },
+  { id: 6, nombre: "Donut", emoji: "🍩", precio: 1.49 },
+  { id: 7, nombre: "Popcorn", emoji: "🍿", precio: 1.99 },
+  { id: 8, nombre: "Soda", emoji: "🥤", precio: 1.50 }
 ];
 
 function App() {
