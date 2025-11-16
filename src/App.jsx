@@ -100,7 +100,8 @@ function App() {
       lng: lng,
       items: orderItems,
       comentario: comment,
-      total_price: getTotal()
+      total_price: getTotal(),
+      is_paid: true
     };
     console.log("Payload listo:", JSON.stringify(payload, null, 2));
 
