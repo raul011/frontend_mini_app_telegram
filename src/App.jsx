@@ -25,6 +25,30 @@ function App() {
       tg.setBackgroundColor('#000000');
       tg.setHeaderColor('#000000');
     }
+
+    // --- INICIO: PRUEBA DE GEOLOCALIZACIÓN ---
+    // Verificamos si el navegador soporta la geolocalización
+    if (navigator.geolocation) {
+      // Pedimos la ubicación actual
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          // Si tiene éxito, muestra las coordenadas
+          const { latitude, longitude } = pos.coords;
+          console.log("Ubicación de prueba obtenida:", latitude, longitude);
+          // Usamos un alert para que sea fácil de ver en el dispositivo
+          alert(`¡Ubicación obtenida!\nLatitud: ${latitude}\nLongitud: ${longitude}`);
+        },
+        (err) => {
+          // Si hay un error, lo mostramos
+          console.error("Error obteniendo ubicación de prueba:", err);
+          alert(`Error al obtener la ubicación: ${err.message}`);
+        }
+      );
+    } else {
+      // Si el navegador no lo soporta, lo indicamos
+      alert("La geolocalización no es soportada por este navegador.");
+    }
+    // --- FIN: PRUEBA DE GEOLOCALIZACIÓN ---
   }, []);
 
   const addItem = (itemId) => {
