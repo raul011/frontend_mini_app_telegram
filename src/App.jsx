@@ -25,30 +25,6 @@ function App() {
       tg.setBackgroundColor('#000000');
       tg.setHeaderColor('#000000');
     }
-
-    // --- INICIO: PRUEBA DE GEOLOCALIZACIÓN ---
-    // Verificamos si el navegador soporta la geolocalización
-    if (navigator.geolocation) {
-      // Pedimos la ubicación actual
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          // Si tiene éxito, muestra las coordenadas
-          const { latitude, longitude } = pos.coords;
-          console.log("Ubicación de prueba obtenida:", latitude, longitude);
-          // Usamos un alert para que sea fácil de ver en el dispositivo
-          alert(`¡Ubicación obtenida!\nLatitud: ${latitude}\nLongitud: ${longitude}`);
-        },
-        (err) => {
-          // Si hay un error, lo mostramos
-          console.error("Error obteniendo ubicación de prueba:", err);
-          alert(`Error al obtener la ubicación: ${err.message}`);
-        }
-      );
-    } else {
-      // Si el navegador no lo soporta, lo indicamos
-      alert("La geolocalización no es soportada por este navegador.");
-    }
-    // --- FIN: PRUEBA DE GEOLOCALIZACIÓN ---
   }, []);
 
   const addItem = (itemId) => {
@@ -77,25 +53,51 @@ function App() {
   const finalizePayment = async () => {
     const tg = window.Telegram?.WebApp;
     const user = tg?.initDataUnsafe?.user;
+
+    // 1. Obtener la ubicación al iniciar la finalización del pago
+    let shippingAddress = "Ubicación no proporcionada"; // Valor por defecto
+    let lat = null;
+    let lng = null;
+
+    try {
+      if (navigator.geolocation) {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+          });
+        });
+        const { latitude, longitude } = position.coords;
+        lat = latitude;
+        lng = longitude;
+        shippingAddress = `Lat: ${latitude}, Lng: ${longitude}`;
+        console.log("Ubicación obtenida:", shippingAddress);
+      } else {
+        console.log("Geolocalización no soportada por el navegador.");
+      }
+    } catch (err) {
+      console.error("Error obteniendo ubicación:", err.message);
+      // Opcional: notificar al usuario que no se pudo obtener la ubicación.
+      alert(`No se pudo obtener la ubicación: ${err.message}. Se usará una dirección por defecto.`);
+    }
+
+    // 2. Construir los items de la orden
     const orderItems = Object.entries(cart).map(([itemId, quantity]) => {
-      //const item = MENU.find(m => m.id === itemId);
       const item = MENU.find(m => m.id === Number(itemId));
       return {
-        //nombre: `${item.id}`,
         product_id: item.id,
         price: item.precio,
         quantity: quantity
       };
     });
 
-    console.log(tg.initDataUnsafe.user);
-    // Construyes el payload con los datos del usuario
-
-
     const payload = {
       telegram_user_id: user?.id,          //  ID real del usuario
       telegram_username: user?.first_name,   //  username si existe
-      direccion_envio: "Av. Siempre Viva 742",
+      direccion_envio: shippingAddress,
+      lat: lat,
+      lng: lng,
       items: orderItems,
       comentario: comment,
       total_price: getTotal()
