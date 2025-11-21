@@ -15,6 +15,7 @@ function App() {
   const [cart, setCart] = useState({});
   const [showOrder, setShowOrder] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [comment, setComment] = useState("");
 
   useEffect(() => {
@@ -113,7 +114,12 @@ function App() {
       // Si quieres, puedes notificar a Telegram que todo salió bien
       if (tg) {
         tg.sendData(JSON.stringify({ status: "success", orderId: result.id }));
+        // Opcional: cerrar la mini app después de un éxito
+        // tg.close();
       }
+      setShowPayment(false);
+      setShowConfirmation(true);
+      setCart({}); // Limpiar el carrito
     } catch (error) {
       console.error("Error creando la orden:", error);
       console.error("Error creando la orden:", error.response?.data || error.message);
@@ -133,6 +139,81 @@ function App() {
   };
 
   const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+
+  // Vista de confirmación de pago
+  if (showConfirmation) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        width: '100vw',
+        background: '#000',
+        color: '#fff',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: '20px',
+        margin: 0,
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          fontSize: '80px',
+          marginBottom: '20px'
+        }}>
+          ✅
+        </div>
+        <h1 style={{
+          fontSize: '28px',
+          fontWeight: '600',
+          margin: '0 0 10px 0'
+        }}>
+          ¡Pago Confirmado!
+        </h1>
+        <p style={{
+          fontSize: '17px',
+          color: '#888',
+          maxWidth: '300px',
+          lineHeight: '1.5',
+          marginBottom: '40px'
+        }}>
+          Tu orden ha sido recibida y se está preparando. ¡Gracias por tu compra!
+        </p>
+        <div style={{
+          position: 'fixed',
+          bottom: '0',
+          left: '0',
+          right: '0',
+          padding: '12px 16px 20px 16px',
+          background: 'linear-gradient(to top, #000 80%, transparent)',
+          zIndex: 100
+        }}>
+          <button
+            onClick={() => {
+              setShowConfirmation(false);
+              setShowOrder(false);
+              // Opcional: cerrar la Mini App de Telegram
+              window.Telegram?.WebApp.close();
+            }}
+            style={{
+              width: '100%',
+              padding: '16px',
+              background: '#00C853',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '14px',
+              fontSize: '17px',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // Vista de pago con QR
   if (showPayment) {
