@@ -100,6 +100,7 @@ function App() {
       lat: lat,
       lng: lng,
       items: orderItems,
+      estado: "PENDIENTE",
       comentario: comment,
       total_price: getTotal(),
       is_paid: true
