@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { crearOrden } from "./services/orders";
+import { crearOrden, dispatchOrden } from "./services/orders";
 const MENU = [
   { id: 1, nombre: "Burger", emoji: "🍔", precio: 4.99 },
   { id: 2, nombre: "Fries", emoji: "🍟", precio: 1.49 },
@@ -111,6 +111,15 @@ function App() {
       //  aquí llamo a tu servicio
       const result = await crearOrden(payload);
       console.log("Orden creada en backend:", result);
+
+      // Despachar la orden inmediatamente después de crearla
+      try {
+        await dispatchOrden(result.id);
+        console.log("Orden despachada exitosamente");
+      } catch (dispatchError) {
+        console.error("Error al despachar la orden:", dispatchError);
+        // No bloqueamos el flujo de éxito si falla el dispatch, pero lo logueamos
+      }
 
       // Si quieres, puedes notificar a Telegram que todo salió bien
       if (tg) {
