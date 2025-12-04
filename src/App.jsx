@@ -17,6 +17,7 @@ function App() {
   const [showPayment, setShowPayment] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [comment, setComment] = useState("");
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
@@ -52,6 +53,8 @@ function App() {
   };
 
   const finalizePayment = async () => {
+    if (isProcessingPayment) return;
+    setIsProcessingPayment(true);
     const tg = window.Telegram?.WebApp;
     const user = tg?.initDataUnsafe?.user;
 
@@ -136,6 +139,8 @@ function App() {
       if (tg) {
         tg.sendData(JSON.stringify({ status: "error" }));
       }
+    } finally {
+      setIsProcessingPayment(false);
     }
 
   };
@@ -405,21 +410,41 @@ function App() {
         }}>
           <button
             onClick={finalizePayment}
+            disabled={isProcessingPayment}
             style={{
               width: '100%',
               padding: '16px',
-              background: '#00C853',
+              background: isProcessingPayment ? '#1b5e20' : '#00C853',
               color: '#fff',
               border: 'none',
               borderRadius: '14px',
               fontSize: '17px',
               fontWeight: 'bold',
-              cursor: 'pointer',
+              cursor: isProcessingPayment ? 'not-allowed' : 'pointer',
               letterSpacing: '0.5px',
-              marginBottom: '10px'
+              marginBottom: '10px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '10px',
+              opacity: isProcessingPayment ? 0.8 : 1
             }}
           >
-            ✓ Confirmar Pago Realizado
+            {isProcessingPayment ? (
+              <>
+                <div style={{
+                  width: '20px',
+                  height: '20px',
+                  border: '3px solid rgba(255,255,255,0.3)',
+                  borderRadius: '50%',
+                  borderTopColor: '#fff',
+                  animation: 'spin 1s ease-in-out infinite'
+                }} />
+                Procesando...
+              </>
+            ) : (
+              '✓ Confirmar Pago Realizado'
+            )}
           </button>
           <button
             onClick={() => setShowPayment(false)}
